@@ -21,5 +21,5 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./          # Dossier à déployer (ici tout le repo)
-          server-dir: /www/mon-site
+          server-dir: /htdocs/
           dry-run: false
