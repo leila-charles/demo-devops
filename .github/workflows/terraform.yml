@@ -1,0 +1,40 @@
+name: Terraform
+
+on:
+  push:
+    paths:
+      - "infrastructure/**"
+  workflow_dispatch:
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Récupération du repo
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Installation Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      # 3. Init Terraform
+      - name: Terraform Init
+        working-directory: infrastructure
+        run: terraform init
+
+      # 4. Format check
+      - name: Terraform Format
+        working-directory: infrastructure
+        run: terraform fmt -check
+
+      # 5. Validation config
+      - name: Terraform Validate
+        working-directory: infrastructure
+        run: terraform validate
+
+      # 6. Plan
+      - name: Terraform Plan
+        working-directory: infrastructure
+        run: terraform plan
