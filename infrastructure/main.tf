@@ -11,10 +11,17 @@ terraform {
 
 provider "docker" {}
 
+# Build l'image Docker à partir du Dockerfile dans demo-devops/
 resource "docker_image" "nginx_image" {
-  name = "nginx:latest"
+  name = "leila685/leila_pro:latest"
+
+  build {
+    context    = "${path.module}/../demo-devops"
+    dockerfile = "${path.module}/../demo-devops/Dockerfile"
+  }
 }
 
+# Lancer le container NGINX localement
 resource "docker_container" "nginx_container" {
   name  = "terraform-nginx"
   image = docker_image.nginx_image.name
