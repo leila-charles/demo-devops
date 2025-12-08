@@ -15,26 +15,25 @@ resource "docker_image" "nginx_image" {
   name = "leila685/leila_pro:latest"
 
   build {
-    context    = "${path.module}/../demo-devops"       # dossier contenant Dockerfile et fichiers du site
+    context    = "${path.module}/../demo-devops"
     dockerfile = "${path.module}/../demo-devops/Dockerfile"
   }
 }
 
 # Création du container NGINX
 resource "docker_container" "nginx_container" {
-  name  = "leila.charles"  # Nom visible dans Docker Desktop
+  name  = "leila.charles"
   image = docker_image.nginx_image.name
 
-  # Mappe le port local 8080 vers le port 80 du container
   ports {
     internal = 80
     external = 8080
   }
 
-  # Remplacer le fichier index.html du container par celui de ton host
+  # Remplacer index.html local
   volumes {
-    host_path      = "${path.module}/../demo-devops/index.html"  # chemin du fichier local
-    container_path = "/usr/share/nginx/html/index.html"          # chemin dans le container
+    host_path      = abspath("${path.module}/../demo-devops/index.html")  # chemin absolu
+    container_path = "/usr/share/nginx/html/index.html"
     read_only      = true
   }
 }
