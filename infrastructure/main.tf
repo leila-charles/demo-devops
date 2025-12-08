@@ -1,4 +1,4 @@
-# 1️⃣ On définit le provider Docker
+# 1️⃣ Définition du provider Docker
 terraform {
   required_providers {
     docker = {
@@ -9,25 +9,26 @@ terraform {
   required_version = ">= 1.0"
 }
 
-# 2️⃣ On connecte Terraform à Docker local
+# 2️⃣ Connexion à Docker local
 provider "docker" {}
 
-# 3️⃣ L'image : on build à partir du Dockerfile dans demo-devops/
+# 3️⃣ Build de l'image Docker à partir du Dockerfile dans demo-devops/
 resource "docker_image" "nginx_image" {
   name = "leila685/leila_pro:latest"
 
   build {
-    context    = "${path.module}/../demo-devops"
-    dockerfile = "${path.module}/../demo-devops/Dockerfile"
+    # Path vers le dossier contenant Dockerfile et fichiers du site
+    context    = "${path.module}/../"
+    dockerfile = "${path.module}/../Dockerfile"
   }
 }
 
-# 4️⃣ Le conteneur : on configure le serveur NGINX
+# 4️⃣ Création du container NGINX
 resource "docker_container" "nginx_container" {
   name  = "leila.charles"  # Nom visible dans Docker Desktop
   image = docker_image.nginx_image.name
 
-  # Mappe le port 8080 local vers le port 80 du conteneur
+  # Mappe le port local 8080 vers le port 80 du container
   ports {
     internal = 80
     external = 8080
