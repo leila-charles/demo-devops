@@ -1,0 +1,9 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+
+# Node / Python / autres fichiers de build (optionnel)
+node_modules/
+*.log
