@@ -16,8 +16,8 @@ resource "docker_image" "nginx_image" {
   name = "leila685/leila_pro:latest"
 
   build {
-    context    = "${Github}/../demo-devops"
-    dockerfile = "${Github}/../demo-devops/Dockerfile"
+    context    = "${path.module}/../demo-devops"
+    dockerfile = "${path.module}/../demo-devops/Dockerfile"
   }
 }
 
